@@ -1582,7 +1582,7 @@ export default function DopeTechEcommerce() {
             </div>
 
             {/* Dope Categories Header - Extreme Mobile Tightness */}
-            <div className="text-center mb-3 sm:mb-4 px-2 sm:px-4 -mt-8 sm:-mt-4 md:-mt-5 lg:-mt-5 animate-fade-in-up stagger-4">
+            <div className="text-center mb-3 sm:mb-4 px-2 sm:px-4 -mt-4 sm:-mt-4 md:-mt-5 lg:-mt-5 animate-fade-in-up stagger-4">
               <h2 className="heading-title">
                 Dope <span className="text-gradient">Categories</span>
               </h2>

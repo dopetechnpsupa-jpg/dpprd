@@ -19,31 +19,55 @@ export function DopeDailyShowcase({
   className = ""
 }: DopeDailyShowcaseProps) {
   const [isVisible, setIsVisible] = useState(false)
-  const [randomProducts, setRandomProducts] = useState<Product[]>([])
+  const [slotProducts, setSlotProducts] = useState<{
+    slot1: Product
+    slot2: Product
+    slot3: Product
+  } | null>(null)
 
   useEffect(() => {
     setIsVisible(true)
   }, [])
 
-  // Function to randomly pick products
-  const getRandomProducts = (allProducts: Product[], count: number = 2): Product[] => {
-    if (!allProducts || allProducts.length === 0) return []
+  // Function to get 3 random discounted products
+  const getRandomProducts = () => {
+    if (!products || products.length === 0) return null
     
-    // Filter out products that should be hidden on home
-    const visibleProducts = allProducts.filter(product => !product.hidden_on_home)
+    // Filter out products that should be hidden on home and only show discounted items
+    const discountedProducts = products.filter(product => 
+      !product.hidden_on_home && 
+      (product.discount > 0 || (product.original_price && product.original_price > product.price))
+    )
     
-    if (visibleProducts.length === 0) return []
+    if (discountedProducts.length === 0) return null
     
-    // Shuffle the array and pick the first 'count' items
-    const shuffled = [...visibleProducts].sort(() => Math.random() - 0.5)
-    return shuffled.slice(0, Math.min(count, shuffled.length))
+    // Shuffle the array and pick 3 different products
+    const shuffled = [...discountedProducts].sort(() => Math.random() - 0.5)
+    const selectedProducts = shuffled.slice(0, 3)
+    
+    if (selectedProducts.length === 3) {
+      return {
+        slot1: selectedProducts[0],
+        slot2: selectedProducts[1],
+        slot3: selectedProducts[2]
+      }
+    }
+    
+    // If we don't have 3 discounted products, return what we have
+    if (selectedProducts.length > 0) {
+      const result: any = {}
+      selectedProducts.forEach((product, index) => {
+        result[`slot${index + 1}`] = product
+      })
+      return result
+    }
+    
+    return null
   }
 
   useEffect(() => {
-    if (products && products.length > 0) {
-      const random = getRandomProducts(products, 2)
-      setRandomProducts(random)
-    }
+    const randomProducts = getRandomProducts()
+    setSlotProducts(randomProducts)
   }, [products])
 
   if (!products || products.length === 0) {
@@ -104,9 +128,6 @@ export function DopeDailyShowcase({
     )
   }
 
-  // Use random products if available, otherwise use fallback
-  const displayProducts = randomProducts.length > 0 ? randomProducts : products.slice(0, 2)
-
   const handleShopNow = (product: Product) => {
     if (onAddToCart) {
       onAddToCart(product)
@@ -115,7 +136,7 @@ export function DopeDailyShowcase({
 
   const handleViewProduct = (product: Product) => {
     // Redirect to product detail page
-            window.location.href = generateProductUrl(product)
+    window.location.href = generateProductUrl(product)
   }
 
   return (
@@ -123,44 +144,62 @@ export function DopeDailyShowcase({
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 30 }}
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-             className={`relative overflow-hidden rounded-3xl bg-black/10 backdrop-blur-xl shadow-2xl ${className}`}
+      className={`relative overflow-hidden rounded-3xl bg-black/10 backdrop-blur-xl shadow-2xl ${className}`}
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')] pattern-dots"></div>
       </div>
 
-             {/* Header Section */}
-       <div className="relative pt-1 pb-3 px-3 sm:p-6 md:p-8 sm:pb-4 text-center">
-         <motion.div
-           initial={{ opacity: 0, y: -10 }}
-           animate={{ opacity: 1, y: 0 }}
-           transition={{ duration: 0.5, delay: 0.1 }}
-           className="inline-flex items-center gap-2 sm:gap-3 bg-[#F7DD0F] text-black px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base md:text-lg font-bold shadow-xl"
-         >
-           <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
-           Dope Daily Picks
-         </motion.div>
-       </div>
-
-             {/* Products Grid */}
-       <div className="relative px-2 sm:px-8 pb-4 sm:pb-6 md:pb-8">
-         <div className={`grid gap-4 max-w-7xl mx-auto ${
-           displayProducts.length === 1 
-             ? 'grid-cols-1' 
-             : 'grid-cols-1 md:grid-cols-2'
-         }`}>
-          {displayProducts.map((product, index) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              index={index}
-              onAddToCart={handleShopNow}
-              onViewProduct={handleViewProduct}
-            />
-          ))}
-        </div>
+      {/* Header Section */}
+      <div className="relative pt-1 pb-3 px-3 sm:p-6 md:p-8 sm:pb-4 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="inline-flex items-center gap-2 sm:gap-3 bg-[#F7DD0F] text-black px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base md:text-lg font-bold shadow-xl"
+        >
+          <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+          Dope Daily Picks
+        </motion.div>
       </div>
+
+             {/* Slots Structure - Discounted Products Only */}
+       <div className="relative px-2 sm:px-8 pb-4 sm:pb-6 md:pb-8">
+         <div className={`grid gap-2 sm:gap-4 max-w-7xl mx-auto ${
+           slotProducts ? 
+             (slotProducts.slot3 ? 'grid-cols-3' : 
+              slotProducts.slot2 ? 'grid-cols-2' : 'grid-cols-1') 
+             : 'grid-cols-3'
+         }`}>
+           {/* Slot 1 */}
+           {slotProducts && slotProducts.slot1 && (
+             <SlotProduct
+               product={slotProducts.slot1}
+               onAddToCart={handleShopNow}
+               onViewProduct={handleViewProduct}
+             />
+           )}
+           
+           {/* Slot 2 */}
+           {slotProducts && slotProducts.slot2 && (
+             <SlotProduct
+               product={slotProducts.slot2}
+               onAddToCart={handleShopNow}
+               onViewProduct={handleViewProduct}
+             />
+           )}
+           
+           {/* Slot 3 */}
+           {slotProducts && slotProducts.slot3 && (
+             <SlotProduct
+               product={slotProducts.slot3}
+               onAddToCart={handleShopNow}
+               onViewProduct={handleViewProduct}
+             />
+           )}
+         </div>
+       </div>
 
       {/* Floating Decorative Elements */}
       <motion.div
@@ -193,80 +232,113 @@ export function DopeDailyShowcase({
   )
 }
 
-// Product Card Component
-interface ProductCardProps {
+// Slot Product Component
+interface SlotProductProps {
   product: Product
-  index: number
   onAddToCart: (product: Product) => void
   onViewProduct: (product: Product) => void
 }
 
-function ProductCard({ product, index, onAddToCart, onViewProduct }: ProductCardProps) {
+function SlotProduct({ product, onAddToCart, onViewProduct }: SlotProductProps) {
+  if (!product) {
+    return (
+      <div className="bg-black/80 backdrop-blur-sm rounded-2xl p-3 sm:p-4 border border-[#feda00]/30 min-h-[120px] sm:min-h-[140px] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#F7DD0F]/20 rounded-full mx-auto mb-2 flex items-center justify-center">
+            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-[#F7DD0F]" />
+          </div>
+          <p className="text-xs sm:text-sm text-white/60">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
          <motion.div
-       initial={{ opacity: 0, scale: 0.95 }}
+       key={`${product.id}`}
+       initial={{ opacity: 0, scale: 0.9 }}
        animate={{ opacity: 1, scale: 1 }}
-       transition={{ duration: 0.5, delay: index * 0.1 }}
-                               className="flex flex-row items-center gap-2 sm:gap-3 bg-black/80 backdrop-blur-sm rounded-2xl p-3 sm:p-4 md:p-6 border border-[#feda00]/30 hover:bg-black/90 transition-all duration-300 shadow-lg"
+       transition={{ duration: 0.5 }}
+       className="bg-black/80 backdrop-blur-sm rounded-2xl p-3 sm:p-4 border border-[#feda00]/30 hover:bg-black/90 transition-all duration-300 shadow-lg cursor-pointer"
+       onClick={() => onViewProduct(product)}
      >
-                                                               {/* Product Image */}
-         <div className="flex-shrink-0 w-20 sm:w-24 md:w-28 lg:w-32 xl:w-40 aspect-square relative rounded-2xl overflow-hidden">
-                           <img
-                src={getPrimaryImageUrl(product)}
-                alt={product.name}
-                className="w-full h-full object-cover drop-shadow-lg"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = '/placeholder-product.svg';
-                }}
-              />
-            
 
-          </div>
 
-                                           {/* Product Info */}
-         <div className="flex-1 text-left space-y-1 sm:space-y-2 md:space-y-3 w-full">
-                      {/* Category */}
-            <p className="text-white/70 text-xs sm:text-sm font-semibold uppercase tracking-wider">
-              {product.category}
-            </p>
+             {/* Product Image with Overlay Buttons */}
+       <div className="w-full aspect-square relative rounded-xl overflow-hidden mb-3 group">
+         <img
+           src={getPrimaryImageUrl(product)}
+           alt={product.name}
+           className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+           onError={(e) => {
+             const target = e.target as HTMLImageElement;
+             target.src = '/placeholder-product.svg';
+           }}
+         />
+         
+         {/* Discount Badge */}
+         {product.discount > 0 && (
+           <div className="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+             -{product.discount}%
+           </div>
+         )}
 
-            {/* Title */}
-            <h3 className="text-xs sm:text-sm md:text-lg lg:text-xl font-bold text-white leading-tight line-clamp-2">
-              {product.name}
-            </h3>
-
-            {/* Price */}
-            <div className="flex items-baseline gap-2">
-              <span className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white">
-                Rs {product.price?.toLocaleString()}
-              </span>
-              {product.original_price && product.original_price > product.price && (
-                <span className="text-xs sm:text-sm text-white/50 line-through">
-                  Rs {product.original_price.toLocaleString()}
-                </span>
-              )}
-            </div>
-
-                                      {/* Action Buttons */}
-           <div className="flex flex-row gap-1 sm:gap-2 pt-1 sm:pt-2 mt-1 sm:mt-2">
-                                                                                               <button
-                onClick={() => onViewProduct(product)}
-                className="group bg-[#F7DD0F] text-black px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 rounded-full font-bold text-xs sm:text-sm hover:bg-[#F7DD0F]/90 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 sm:gap-2 shadow-lg min-h-[32px] sm:min-h-[40px] md:min-h-[48px] flex-1"
-              >
-                Buy
-                <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-             
-                          <button
-                onClick={() => onAddToCart(product)}
-                className="group border border-white text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 rounded-full font-bold text-xs sm:text-sm hover:bg-[#feda00] hover:text-black transition-all duration-300 flex items-center justify-center gap-1 sm:gap-2 shadow-lg min-h-[32px] sm:min-h-[40px] md:min-h-[48px] flex-1"
-              >
-               Cart
-               <ShoppingBag className="w-3 h-3 sm:w-4 sm:h-4 group-hover:scale-110 transition-transform" />
+         {/* Overlay Buttons - Hidden by default, shown on hover */}
+         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+           <div className="flex gap-2">
+             <button
+               onClick={(e) => {
+                 e.stopPropagation()
+                 onViewProduct(product)
+               }}
+               className="group/btn bg-[#F7DD0F] text-black hover:bg-[#F7DD0F]/90 transition-all duration-200 font-semibold px-3 py-2 rounded-full text-xs shadow-lg hover:scale-105"
+             >
+               Buy
+               <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform inline ml-1" />
              </button>
+             
+             <button
+               onClick={(e) => {
+                 e.stopPropagation()
+                 onAddToCart(product)
+               }}
+               className="group/btn border border-white text-white hover:bg-[#feda00] hover:text-black transition-all duration-200 font-semibold px-3 py-2 rounded-full text-xs shadow-lg hover:scale-105"
+             >
+               Cart
+               <ShoppingBag className="w-3 h-3 group-hover/btn:scale-110 transition-transform inline ml-1" />
+             </button>
+           </div>
          </div>
-      </div>
+       </div>
+
+                {/* Product Info */}
+         <div className="space-y-2">
+           {/* Category */}
+           <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">
+             {product.category}
+           </p>
+
+           {/* Title */}
+           <h3 className="text-xs sm:text-sm font-bold text-white leading-tight line-clamp-2">
+             {product.name}
+           </h3>
+
+           {/* Price */}
+           <div className="flex items-baseline gap-2">
+             <span className="text-sm font-bold text-white">
+               Rs {product.price?.toLocaleString()}
+             </span>
+             {product.original_price && product.original_price > product.price && (
+               <span className="text-xs text-white/50 line-through">
+                 Rs {product.original_price.toLocaleString()}
+               </span>
+             )}
+           </div>
+
+
+       </div>
+
+      
     </motion.div>
   )
 }
