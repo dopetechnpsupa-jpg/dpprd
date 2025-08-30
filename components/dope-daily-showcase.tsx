@@ -286,12 +286,13 @@ function SlotProduct({ product, onAddToCart, onViewProduct }: SlotProductProps) 
          {/* Overlay Buttons - Hidden by default, shown on hover */}
          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
            <div className="flex gap-2">
+             {/* Buy button - hidden on mobile */}
              <button
                onClick={(e) => {
                  e.stopPropagation()
                  onViewProduct(product)
                }}
-               className="group/btn bg-[#F7DD0F] text-black hover:bg-[#F7DD0F]/90 transition-all duration-200 font-semibold px-3 py-2 rounded-full text-xs shadow-lg hover:scale-105"
+               className="hidden sm:inline-flex group/btn bg-[#F7DD0F] text-black hover:bg-[#F7DD0F]/90 transition-all duration-200 font-semibold px-3 py-2 rounded-full text-xs shadow-lg hover:scale-105"
              >
                Buy
                <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform inline ml-1" />
