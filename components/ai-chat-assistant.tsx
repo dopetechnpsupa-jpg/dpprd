@@ -277,14 +277,14 @@ export default function AIChatAssistant({ products, onAddToCart }: AIChatAssista
       {/* Mobile Chat Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="ai-chat-toggle-button fixed bottom-6 right-4 md:bottom-8 md:right-6 z-[9999] frosted-glass-yellow frosted-glass-yellow-hover text-black p-4 rounded-full touch-manipulation flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-105"
+        className="ai-chat-toggle-button fixed bottom-24 right-4 md:bottom-20 md:right-6 z-[9999] frosted-glass-yellow frosted-glass-yellow-hover text-black p-4 rounded-full touch-manipulation flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-105"
         style={{ 
           minHeight: '56px', 
           minWidth: '56px', 
           maxWidth: '56px', 
           maxHeight: '56px',
           position: 'fixed',
-          bottom: '24px',
+          bottom: '96px',
           right: '16px',
           zIndex: 9999,
           pointerEvents: 'auto'

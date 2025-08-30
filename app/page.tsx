@@ -1550,7 +1550,7 @@ export default function DopeTechEcommerce() {
             </div>
 
             {/* Dope Picks Section - Reduced Bottom Margin */}
-            <div className="w-full mx-auto mt-1 sm:mt-6 mb-1 sm:mb-6 animate-fade-in-up stagger-4">
+            <div className="w-full mx-auto -mt-2 sm:-mt-1 md:-mt-2 lg:-mt-2 mb-1 sm:mb-2 md:mb-1 lg:mb-1 animate-fade-in-up stagger-4">
               <div className="heading-section">
                 <h2 className="heading-title">
                   Dope <span className="text-gradient">Picks</span>
@@ -1573,7 +1573,7 @@ export default function DopeTechEcommerce() {
             </div>
             
             {/* Enhanced Dope Daily Picks Section */}
-            <div className="w-full mx-auto mt-2 sm:mt-6 mb-2 sm:mb-6 animate-fade-in-up stagger-5">
+            <div className="w-full mx-auto mt-2 sm:mt-3 mb-2 sm:mb-4 animate-fade-in-up stagger-5">
               <DopeDailyShowcase 
                 products={products}
                 onAddToCart={handleAddToCartWithTracking}
@@ -1582,7 +1582,7 @@ export default function DopeTechEcommerce() {
             </div>
 
             {/* Dope Categories Header - Extreme Mobile Tightness */}
-            <div className="text-center mb-3 sm:mb-6 px-2 sm:px-4 -mt-4 sm:mt-1 animate-fade-in-up stagger-4">
+            <div className="text-center mb-3 sm:mb-4 px-2 sm:px-4 -mt-8 sm:-mt-4 md:-mt-5 lg:-mt-5 animate-fade-in-up stagger-4">
               <h2 className="heading-title">
                 Dope <span className="text-gradient">Categories</span>
               </h2>
@@ -1592,7 +1592,7 @@ export default function DopeTechEcommerce() {
             </div>
 
                          {/* Category Filter - Maximum Negative Mobile Bottom Margin */}
-             <div ref={categorySectionRef} className="-mb-3 sm:mb-6 animate-fade-in-up stagger-5">
+             <div ref={categorySectionRef} className="-mb-3 sm:mb-4 animate-fade-in-up stagger-5">
                {/* Horizontal Scroll Layout for Mobile, Flex Wrap for Desktop */}
                <div className="flex overflow-x-auto scrollbar-hide gap-2 sm:gap-3 sm:flex-wrap sm:justify-center w-full px-4">
                  {categories.map((category, index) => (
@@ -1726,11 +1726,11 @@ export default function DopeTechEcommerce() {
 
       {/* Dope Arrivals Section - Consistent Spacing */}
       {Object.keys(dopeArrivals).length > 0 && (
-        <section className="py-4 sm:py-6 md:py-8 lg:py-10 overflow-hidden relative" style={{ background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(230, 200, 0, 0.8) 50%, rgba(247, 221, 15, 0.7) 100%)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+        <section className="pt-0 sm:pt-1 md:pt-2 lg:pt-3 pb-4 sm:pb-4 md:pb-6 lg:pb-8 overflow-hidden relative" style={{ background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(230, 200, 0, 0.8) 50%, rgba(247, 221, 15, 0.7) 100%)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
           <div className="container-full">
             <div className="w-full mx-auto section-spacing animate-fade-in-up">
               {/* Section Header - Dope Daily Picks Style */}
-              <div className="relative -mt-5 pb-3 px-3 sm:p-6 md:p-8 sm:pb-4 text-center">
+              <div className="relative -mt-16 sm:-mt-8 md:-mt-12 lg:-mt-12 pb-3 px-3 sm:p-6 md:p-8 sm:pb-4 text-center">
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1743,7 +1743,7 @@ export default function DopeTechEcommerce() {
               </div>
 
               {/* Categories Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-6 md:gap-8 lg:gap-10 px-0 sm:px-6 md:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-8 px-0 sm:px-6 md:px-8">
                 {Object.entries(dopeArrivals).map(([categoryName, categoryProducts], categoryIndex) => (
                   <div
                     key={categoryName}
@@ -1826,9 +1826,9 @@ export default function DopeTechEcommerce() {
       )}
 
              {/* Dope Weekly Picks Section - Consistent Spacing */}
-       <section className="pt-1 sm:pt-6 md:pt-8 lg:pt-10 pb-2 sm:pb-10 md:pb-12 lg:pb-16 overflow-hidden relative section-slide-in" style={{ background: 'linear-gradient(135deg, #000000 0%, #1a1a0a 50%, #000000 100%)' }}>
+       <section className="pt-0 sm:pt-2 md:pt-3 lg:pt-4 pb-2 sm:pb-10 md:pb-12 lg:pb-16 overflow-hidden relative section-slide-in" style={{ background: 'linear-gradient(135deg, #000000 0%, #1a1a0a 50%, #000000 100%)' }}>
         <div className="container-full">
-          <div className="w-full mx-auto section-spacing animate-fade-in-up stagger-5">
+          <div className="w-full mx-auto -mt-2 sm:-mt-1 md:-mt-2 lg:-mt-2 mb-1 sm:mb-2 md:mb-1 lg:mb-1 animate-fade-in-up stagger-5">
             {/* Section Header - Consistent Spacing */}
             <div className="heading-section">
               <h2 className="heading-title">
@@ -1925,16 +1925,18 @@ export default function DopeTechEcommerce() {
       </section>
 
              {/* GIF Section - Moved from hero area */}
-       <section className="pt-1 sm:pt-8 md:pt-12 lg:pt-16 pb-2 sm:pb-16 md:pb-20 lg:pb-24 overflow-hidden relative section-fade-in" style={{ background: 'linear-gradient(135deg, #000000 0%, #1a1a0a 50%, #000000 100%)' }}>
+       <section className="pt-0 sm:pt-1 md:pt-2 lg:pt-3 pb-2 sm:pb-8 md:pb-10 lg:pb-12 overflow-hidden relative section-fade-in" style={{ background: 'linear-gradient(135deg, #000000 0%, #1a1a0a 50%, #000000 100%)' }}>
         <div className="container-full">
           {/* Section Header - Consistent Spacing */}
-          <div className="heading-section animate-fade-in-up">
-            <h2 className="heading-title">
-              Dope <span className="text-gradient">Recommendations</span>
-            </h2>
-            <p className="heading-subtitle">
-              Grab these and more on our Instagram
-            </p>
+          <div className="w-full mx-auto -mt-2 sm:-mt-1 md:-mt-2 lg:-mt-2 mb-1 sm:mb-2 md:mb-1 lg:mb-1 animate-fade-in-up">
+            <div className="heading-section">
+              <h2 className="heading-title">
+                Dope <span className="text-gradient">Recommendations</span>
+              </h2>
+              <p className="heading-subtitle">
+                Grab these and more on our Instagram
+              </p>
+            </div>
           </div>
 
           {/* Featured Product Image Container - Styled like Sliding Carousel */}
@@ -2142,28 +2144,28 @@ export default function DopeTechEcommerce() {
         </div>
       )}
 
-      {/* Footer - Enhanced Spacing */}
-      <footer className="bg-black py-6 sm:py-8 md:py-10 lg:py-12 border-t-2 border-[#F7DD0F]">
+      {/* Footer - Compact Size */}
+      <footer className="bg-black py-3 sm:py-4 md:py-6 lg:py-8 border-t-2 border-[#F7DD0F]">
         <div className="container-full">
-          <div className="flex flex-col md:flex-row justify-between items-center px-4">
-            <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4 mb-6 sm:mb-8 md:mb-0">
+          <div className="flex flex-col items-center px-3 sm:px-4 space-y-2 sm:space-y-3 md:space-y-4">
+            <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
               <ClientOnly fallback={
                 <img 
                   src="/logo/simple-logo.svg" 
                   alt="DopeTech" 
-                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 logo-adaptive" 
+                  className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 logo-adaptive" 
                 />
               }>
                 <img 
                   src={logoLoading ? "/logo/simple-logo.svg" : logoUrl} 
                   alt="DopeTech" 
-                  className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 logo-adaptive" 
+                  className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 logo-adaptive" 
                 />
               </ClientOnly>
               <span className="text-xs sm:text-sm md:text-base text-white jakarta-light font-medium">© 2025 DopeTech Nepal. All rights reserved.</span>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-10">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-6">
               <a href="/terms" className="text-xs sm:text-sm md:text-base text-gray-400 hover:text-[#F7DD0F] transition-colors cursor-hover jakarta-light font-medium">
                 Terms & Conditions
               </a>
