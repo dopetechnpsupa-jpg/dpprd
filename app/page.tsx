@@ -920,30 +920,26 @@ export default function DopeTechEcommerce() {
   }, [posterIndex, products])
 
   const handleCategoryClick = (categoryId: string) => {
-    setIsLoading(true) // Show loading state
+    // Remove loading state for smooth transitions
     setSelectedCategory(categoryId)
     // Clear search when switching categories
     setSearchQuery("")
     
-    // Fluid scroll to products section with enhanced animation
-    setTimeout(() => {
-      const productsSection = document.querySelector('[data-products-section]')
-      if (productsSection) {
-        const header = document.querySelector('header.dopetech-nav') as HTMLElement | null
-        const headerHeight = header ? header.offsetHeight + 12 : 72
-        const rect = productsSection.getBoundingClientRect()
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-        const targetPosition = scrollTop + rect.top - headerHeight
-        
-        // Enhanced smooth scroll with easing
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        })
-      }
-      // Hide loading after scroll completes
-      setTimeout(() => setIsLoading(false), 500)
-    }, 100)
+    // Smooth scroll to products section with enhanced animation
+    const productsSection = document.querySelector('[data-products-section]')
+    if (productsSection) {
+      const header = document.querySelector('header.dopetech-nav') as HTMLElement | null
+      const headerHeight = header ? header.offsetHeight + 12 : 72
+      const rect = productsSection.getBoundingClientRect()
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+      const targetPosition = scrollTop + rect.top - headerHeight
+      
+      // Enhanced smooth scroll with easing
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      })
+    }
   }
 
 
@@ -1599,22 +1595,22 @@ export default function DopeTechEcommerce() {
                    <div key={category.id} className="relative animate-fade-in-up flex-shrink-0 sm:flex-shrink" style={{ animationDelay: `${index * 0.1}s` }}>
                      <button
                        onClick={() => handleCategoryClick(category.id)}
-                       className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-1.5 sm:py-3 rounded-full transition-all duration-300 cursor-pointer text-xs sm:text-sm min-h-[32px] sm:min-h-[48px] shadow-lg whitespace-nowrap ${
+                       className={`flex items-center space-x-1 sm:space-x-2 px-2 sm:px-4 py-1.5 sm:py-3 rounded-full transition-all duration-500 ease-in-out cursor-pointer text-xs sm:text-sm min-h-[32px] sm:min-h-[48px] shadow-lg whitespace-nowrap transform hover:scale-105 active:scale-95 ${
                          selectedCategory === category.id
-                           ? "bg-[#F7DD0F] text-black font-bold"
+                           ? "bg-[#F7DD0F] text-black font-bold scale-105 shadow-xl"
                            : "bg-white/10 hover:bg-white/15 font-medium border border-white/10"
                        }`}
                        aria-label={`Filter by ${category.name}`}
                      >
                        {/* Category Icon */}
-                       <div className={`flex-shrink-0 ${
+                       <div className={`flex-shrink-0 transition-all duration-500 ease-in-out ${
                          selectedCategory === category.id ? "text-black" : "text-[#F7DD0F]"
                        }`}>
                          {renderCategoryIcon(category.icon, "w-3 h-3 sm:w-5 sm:h-5")}
                        </div>
                        
                        {/* Category Name */}
-                       <span className="font-medium">{category.name}</span>
+                       <span className="font-medium transition-all duration-500 ease-in-out">{category.name}</span>
                      </button>
                    </div>
                  ))}
@@ -1625,7 +1621,7 @@ export default function DopeTechEcommerce() {
                      {/* Products Grid - Consistent Spacing */}
                        <div 
               data-products-section
-              className={`grid gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 mt-3 sm:mt-6 md:mt-8 lg:mt-10 cv-auto ${
+              className={`grid gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 mt-3 sm:mt-6 md:mt-8 lg:mt-10 cv-auto transition-all duration-500 ease-in-out ${
                 viewMode === "grid" 
                   ? "grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6" 
                   : "grid-cols-1"
@@ -1643,7 +1639,7 @@ export default function DopeTechEcommerce() {
               ))
             ) : (
                              filteredProducts.map((product, index) => (
-               <div key={product.id} data-product-id={product.id} className="group animate-fade-in-up hover-lift product-card-fluid scroll-animate h-full" style={{ animationDelay: `${index * 0.1}s` }}>
+               <div key={`${product.id}-${selectedCategory}`} data-product-id={product.id} className="group animate-fade-in-up hover-lift product-card-fluid scroll-animate h-full transition-all duration-300 ease-in-out" style={{ animationDelay: `${index * 0.05}s` }}>
                  <div 
                    className="relative bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-yellow-500/20 hover:border-yellow-500/40 cursor-pointer h-full flex flex-col"
                    onClick={() => handleProductNavigation(product.id.toString())}
@@ -1726,11 +1722,11 @@ export default function DopeTechEcommerce() {
 
       {/* Dope Arrivals Section - Consistent Spacing */}
       {Object.keys(dopeArrivals).length > 0 && (
-        <section className="pt-0 sm:pt-1 md:pt-2 lg:pt-3 pb-4 sm:pb-4 md:pb-6 lg:pb-8 overflow-hidden relative" style={{ background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(230, 200, 0, 0.8) 50%, rgba(247, 221, 15, 0.7) 100%)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+        <section className="pt-0 sm:pt-1 md:pt-2 lg:pt-3 pb-2 sm:pb-2 md:pb-4 lg:pb-6 overflow-hidden relative" style={{ background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(230, 200, 0, 0.8) 50%, rgba(247, 221, 15, 0.7) 100%)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
           <div className="container-full">
             <div className="w-full mx-auto section-spacing animate-fade-in-up">
               {/* Section Header - Dope Daily Picks Style */}
-              <div className="relative -mt-16 sm:-mt-8 md:-mt-12 lg:-mt-12 pb-3 px-3 sm:p-6 md:p-8 sm:pb-4 text-center">
+              <div className="relative mt-2 sm:-mt-8 md:-mt-12 lg:-mt-12 pb-3 px-3 sm:p-6 md:p-8 sm:pb-4 text-center">
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1806,13 +1802,17 @@ export default function DopeTechEcommerce() {
                       </div>
                       
                       {/* View All Button */}
-                      {categoryProducts.length > 4 && (
-                        <div className="mt-4 pt-4 border-t border-[#F7DD0F]/20">
-                          <button className="w-full text-center text-[#F7DD0F] hover:text-white text-sm font-medium transition-colors duration-300 bg-[#F7DD0F]/10 hover:bg-[#F7DD0F]/20 py-2 rounded-lg">
-                            View All {categoryProducts.length} Items →
-                          </button>
-                        </div>
-                      )}
+                      <div className="mt-4 pt-4 border-t border-[#F7DD0F]/20">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCategoryClick(categoryName);
+                          }}
+                          className="w-full text-center text-[#F7DD0F] hover:text-[#F7DD0F] text-sm font-medium transition-colors duration-300 bg-[#F7DD0F]/10 hover:bg-[#F7DD0F]/20 py-2 rounded-lg transform hover:scale-105 active:scale-95"
+                        >
+                          Browse More
+                        </button>
+                      </div>
                     </div>
 
                     {/* Hover Effect Overlay */}
@@ -1826,7 +1826,7 @@ export default function DopeTechEcommerce() {
       )}
 
              {/* Dope Weekly Picks Section - Consistent Spacing */}
-       <section className="pt-0 sm:pt-2 md:pt-3 lg:pt-4 pb-2 sm:pb-10 md:pb-12 lg:pb-16 overflow-hidden relative section-slide-in" style={{ background: 'linear-gradient(135deg, #000000 0%, #1a1a0a 50%, #000000 100%)' }}>
+       <section className="pt-4 sm:pt-2 md:pt-3 lg:pt-4 pb-2 sm:pb-10 md:pb-12 lg:pb-16 overflow-hidden relative section-slide-in" style={{ background: 'linear-gradient(135deg, #000000 0%, #1a1a0a 50%, #000000 100%)' }}>
         <div className="container-full">
           <div className="w-full mx-auto -mt-2 sm:-mt-1 md:-mt-2 lg:-mt-2 mb-1 sm:mb-2 md:mb-1 lg:mb-1 animate-fade-in-up stagger-5">
             {/* Section Header - Consistent Spacing */}
