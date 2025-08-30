@@ -2384,6 +2384,20 @@ main::-webkit-scrollbar {
   cursor: pointer;
 }
 
+/* Dope Daily Picks Price Centering for Desktop */
+.dope-daily-price-desktop {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .dope-daily-price-desktop {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 .product-nav-button:hover {
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(247, 221, 15, 0.6);

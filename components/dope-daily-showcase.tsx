@@ -259,13 +259,13 @@ function SlotProduct({ product, onAddToCart, onViewProduct }: SlotProductProps) 
        initial={{ opacity: 0, scale: 0.9 }}
        animate={{ opacity: 1, scale: 1 }}
        transition={{ duration: 0.5 }}
-       className="bg-black/80 backdrop-blur-sm rounded-2xl p-3 sm:p-4 border border-[#feda00]/30 hover:bg-black/90 transition-all duration-300 shadow-lg cursor-pointer"
+       className="bg-black/80 backdrop-blur-sm rounded-2xl p-2 sm:p-3 md:p-2 lg:p-2 border border-[#feda00]/30 hover:bg-black/90 transition-all duration-300 shadow-lg cursor-pointer"
        onClick={() => onViewProduct(product)}
      >
 
 
              {/* Product Image with Overlay Buttons */}
-       <div className="w-full aspect-square relative rounded-xl overflow-hidden mb-3 group">
+       <div className="w-full aspect-[3/2] sm:aspect-[3/2] md:aspect-[5/3] lg:aspect-[5/3] relative rounded-xl overflow-hidden mb-2 sm:mb-3 md:mb-2 lg:mb-2 group">
          <img
            src={getPrimaryImageUrl(product)}
            alt={product.name}
@@ -312,24 +312,24 @@ function SlotProduct({ product, onAddToCart, onViewProduct }: SlotProductProps) 
        </div>
 
                 {/* Product Info */}
-         <div className="space-y-2">
+         <div className="space-y-1 sm:space-y-2 md:space-y-1 lg:space-y-1">
            {/* Category */}
-           <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">
+           <p className="text-white/70 text-sm sm:text-base font-semibold uppercase tracking-wider">
              {product.category}
            </p>
 
            {/* Title */}
-           <h3 className="text-xs sm:text-sm font-bold text-white leading-tight line-clamp-2">
+           <h3 className="text-xs sm:text-sm md:text-sm lg:text-sm font-bold text-white leading-tight line-clamp-2">
              {product.name}
            </h3>
 
            {/* Price */}
-           <div className="flex items-baseline gap-2">
-             <span className="text-sm font-bold text-white">
+           <div className="dope-daily-price-desktop">
+             <span className="text-sm sm:text-base md:text-base lg:text-base font-bold text-[#F7DD0F]">
                Rs {product.price?.toLocaleString()}
              </span>
              {product.original_price && product.original_price > product.price && (
-               <span className="text-xs text-white/50 line-through">
+               <span className="text-xs sm:text-sm text-white/50 line-through">
                  Rs {product.original_price.toLocaleString()}
                </span>
              )}
